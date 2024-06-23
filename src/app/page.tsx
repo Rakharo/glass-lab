@@ -7,6 +7,7 @@ import florest from '../../public/florest.jpg'
 import rain from '../../public/rain.jpg'
 import beach from '../../public/beach.jpg'
 import cloudy from '../../public/cloudy.jpg'
+import night from '../../public/night.jpg'
 
 import React, { useEffect, useState } from 'react';
 
@@ -35,31 +36,105 @@ export default function Home() {
   }, [])
 
   function handleIcon() {
-    switch (weather?.current.condition.text) {
-      case ("Sol"):
-        return (
-          <span className="material-symbols-outlined" style={{ color: "orange", fontSize: "48pt" }}>
-            sunny
-          </span>
-        )
-      case ("Nublado"):
-        return (
-          <span className="material-symbols-outlined" style={{ color: "white", fontSize: "48pt" }}>
-            partly_cloudy_day
-          </span>
-        )
-      case ("Chuva"):
-        return (
-          <span className="material-symbols-outlined" style={{ color: "gray", fontSize: "48pt" }}>
-            rainy
-          </span>
-        )
-      case ("Tempo limpo"):
+    if (weather?.current.condition.text.includes("Sol" || "Nublado" || "Chuva" || "Tempo limpo")) {
+      switch (weather?.current.condition.text) {
+        case ("Sol"):
+          if (+weather?.location.localtime.split(" ")[1] < 18) {
+            return (
+              <span className="material-symbols-outlined" style={{ color: "orange", fontSize: "48pt" }}>
+                sunny
+              </span>
+            )
+          } else {
+            return (
+              <span className="material-symbols-outlined" style={{ fontSize: "48pt", color: "white" }}>
+                clear_night
+              </span>
+            )
+          }
+        case ("Nublado"):
+          if (+weather?.location.localtime.split(" ")[1] < 18) {
+            return (
+              <span className="material-symbols-outlined" style={{ color: "white", fontSize: "48pt" }}>
+                partly_cloudy_day
+              </span>
+            )
+          } else {
+            return (
+              <span className="material-symbols-outlined" style={{ fontSize: "48pt", color: "white" }}>
+                partly_cloudy_night
+              </span>
+            )
+          }
+        case ("Chuva"):
+          return (
+            <span className="material-symbols-outlined" style={{ color: "gray", fontSize: "48pt" }}>
+              rainy
+            </span>
+          )
+        case ("Tempo limpo"):
+          if (+weather?.location.localtime.split(" ")[1] < 18) {
+            return (
+              <span className="material-symbols-outlined" style={{ color: "yellow", fontSize: "48pt" }}>
+                clear_day
+              </span>
+            )
+          } else {
+            return (
+              <span className="material-symbols-outlined" style={{ fontSize: "48pt", color: "white" }}>
+                nightlight
+              </span>
+            )
+          }
+      }
+    } else {
+      if (+weather?.location.localtime.split(" ")[1] < 18) {
         return (
           <span className="material-symbols-outlined" style={{ color: "yellow", fontSize: "48pt" }}>
             clear_day
           </span>
         )
+      } else {
+        return (
+          <span className="material-symbols-outlined" style={{ fontSize: "48pt", color: "white" }}>
+            nightlight
+          </span>
+        )
+      }
+    }
+  }
+
+  function handleImage() {
+    if (weather?.current.condition.text.includes("Sol" || "Nublado" || "Chuva" || "Tempo limpo")) {
+      switch (weather?.current.condition.text) {
+        case ("Sol"):
+          return (
+            <Image className='img' src={beach} alt="beach" />
+          )
+        case ("Nublado"):
+          return (
+            <Image className='img' src={cloudy} alt="cloudy" />
+          )
+        case ("Chuva"):
+          return (
+            <Image className='img' src={rain} alt="rain" />
+          )
+        case ("Tempo limpo"):
+          return (
+            <Image className='img' src={florest} alt="florest" />
+          )
+      }
+    } else {
+
+      if (+weather?.location.localtime.split(" ")[1] < 18) {
+        return (
+          <Image className='img' src={florest} alt="florest" />
+        )
+      } else {
+        return (
+          <Image className='img' src={night} alt="night" />
+        )
+      }
     }
   }
 
@@ -67,31 +142,19 @@ export default function Home() {
     <main>
       <div className="background">
         {
-          weather?.current.condition.text === "Chuva" &&
-          <Image className='img' src={rain} alt="rain" />
-        }
-        {
-          weather?.current.condition.text === "Nublado" &&
-          <Image className='img' src={cloudy} alt="cloudy" />
-        }
-        {
-          weather?.current.condition.text === "Sol" &&
-          <Image className='img' src={beach} alt="beach" />
-        }
-        {
-          weather?.current.condition.text === "Tempo limpo" &&
-          <Image className='img' src={florest} alt="florest" />
+
+          handleImage()
         }
         <div className="glass">
-          <h4 className='text' style={{fontSize: "36pt", marginTop: "0.5em"}}>
+          <h4 className='text' style={{ fontSize: "36pt", marginTop: "0.5em" }}>
             {
               weather?.location.localtime.split(" ")[1]
             }
           </h4>
           <h4 className='text'>{handleIcon()}</h4>
-          <div className='text' style={{marginBottom: "0.5em"}}>
-            <h4 style={{fontSize: "36pt"}}>{weather?.current.temp_c}ºC</h4>
-            <h4 style={{fontSize: "24pt"}}>{weather?.location.region}</h4>
+          <div className='text' style={{ marginBottom: "0.5em" }}>
+            <h4 style={{ fontSize: "36pt" }}>{weather?.current.temp_c}ºC</h4>
+            <h4 style={{ fontSize: "24pt" }}>{weather?.location.region}</h4>
           </div>
         </div>
       </div>
