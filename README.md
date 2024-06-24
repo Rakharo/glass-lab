@@ -13,3 +13,4 @@ Use o comando abaixo para iniciar a aplicação. Depois basta abrir o link dispo
 ```bash
 npm run dev
 ```
+![image](https://github.com/andrempacini/glass-lab/assets/69876703/cb7a635b-6e29-423c-a113-e6bac0422c4b)
