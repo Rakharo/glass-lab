@@ -39,7 +39,7 @@ export default function Home() {
     if (weather?.current.condition.text.includes("Sol" || "Nublado" || "Chuva" || "Tempo limpo")) {
       switch (weather?.current.condition.text) {
         case ("Sol"):
-          if (+weather?.location.localtime.split(" ")[1] < 18) {
+          if (+weather?.location.localtime.split(" ")[1].split(":")[0] < 18) {
             return (
               <span className="material-symbols-outlined" style={{ color: "orange", fontSize: "48pt" }}>
                 sunny
@@ -53,7 +53,7 @@ export default function Home() {
             )
           }
         case ("Nublado"):
-          if (+weather?.location.localtime.split(" ")[1] < 18) {
+          if (+weather?.location.localtime.split(" ")[1].split(":")[0] < 18) {
             return (
               <span className="material-symbols-outlined" style={{ color: "white", fontSize: "48pt" }}>
                 partly_cloudy_day
@@ -73,7 +73,7 @@ export default function Home() {
             </span>
           )
         case ("Tempo limpo"):
-          if (+weather?.location.localtime.split(" ")[1] < 18) {
+          if (+weather?.location.localtime.split(" ")[1].split(":")[0] < 18) {
             return (
               <span className="material-symbols-outlined" style={{ color: "yellow", fontSize: "48pt" }}>
                 clear_day
@@ -88,7 +88,7 @@ export default function Home() {
           }
       }
     } else {
-      if (+weather?.location.localtime.split(" ")[1] < 18) {
+      if (+weather?.location.localtime.split(" ")[1].split(":")[0] < 18) {
         return (
           <span className="material-symbols-outlined" style={{ color: "yellow", fontSize: "48pt" }}>
             clear_day
@@ -126,7 +126,7 @@ export default function Home() {
       }
     } else {
 
-      if (+weather?.location.localtime.split(" ")[1] < 18) {
+      if (+weather?.location.localtime.split(" ")[1].split(":")[0] < 18) {
         return (
           <Image className='img' src={florest} alt="florest" />
         )
